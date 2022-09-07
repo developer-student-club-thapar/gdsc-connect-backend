@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
@@ -8,7 +16,7 @@ import { Chat } from './entities/chat.entity';
 @ApiTags('chat')
 @Controller('chat')
 export class ChatController {
-  constructor(private readonly chatService: ChatService) { }
+  constructor(private readonly chatService: ChatService) {}
 
   @ApiOkResponse({ description: 'Created new chat.', type: Chat })
   @Post()
@@ -16,7 +24,11 @@ export class ChatController {
     return this.chatService.create(createChatDto);
   }
 
-  @ApiOkResponse({ description: 'Returned all chats.', type: Chat, isArray: true })
+  @ApiOkResponse({
+    description: 'Returned all chats',
+    type: Chat,
+    isArray: true,
+  })
   @Get()
   findAll() {
     return this.chatService.findAll();
