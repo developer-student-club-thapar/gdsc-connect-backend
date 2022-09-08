@@ -1,22 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Auth } from './entities/auth.entity';
+import { LocalAuthGuard } from './local-auth-guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
-  @ApiOkResponse({ description: 'Created new user.', type: Auth })
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @UseGuards(LocalAuthGuard)
+  @ApiOkResponse({ description: 'Login', type: Auth })
+  @Post('login')
+  async login(@Request() req): Promise<any> {
+    return req.user;
   }
 
-  @ApiOkResponse({ description: 'Returned all users.', type: Auth, isArray: true })
+  @ApiOkResponse({
+    description: 'Returned all users.',
+    type: Auth,
+    isArray: true,
+  })
   @Get()
   findAll() {
     return this.authService.findAll();
