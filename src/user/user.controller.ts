@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,15 +16,23 @@ import { User } from './entities/user.entity';
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
-  @ApiOkResponse({ description: 'Created new user.', type: User, isArray: true })
+  @ApiOkResponse({
+    description: 'Created new user.',
+    type: User,
+    isArray: true,
+  })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
-  @ApiOkResponse({ description: 'Returned all users.', type: User, isArray: true })
+  @ApiOkResponse({
+    description: 'Returned all user.',
+    type: User,
+    isArray: true,
+  })
   @Get()
   findAll() {
     return this.userService.findAll();
