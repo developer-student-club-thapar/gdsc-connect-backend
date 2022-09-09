@@ -12,7 +12,7 @@ import configuration from 'src/config/configuration';
   imports: [UserModule, PassportModule, JwtModule.registerAsync({
     useFactory: () => ({
       secret: configuration().jwtConfig.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '7d' },
     }),
   }),],
   controllers: [AuthController],
