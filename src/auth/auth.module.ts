@@ -9,9 +9,11 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import configuration from 'src/config/configuration';
 
 @Module({
-  imports: [UserModule, PassportModule, JwtModule.register({
-    secret: configuration().jwtConfig.secret,
-    signOptions: { expiresIn: '7d' },
+  imports: [UserModule, PassportModule, JwtModule.registerAsync({
+    useFactory: () => ({
+      secret: configuration().jwtConfig.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
   }),],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
