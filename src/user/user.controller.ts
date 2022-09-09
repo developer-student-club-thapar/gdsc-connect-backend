@@ -41,7 +41,7 @@ export class UserController {
   @ApiOkResponse({ description: 'Returned user with ID.', type: User })
   @Get(':email')
   findOne(@Param('email') email: string) {
-    return this.userService.findOne(email);
+    return this.userService.findOne(email, false);
   }
 
   @ApiOkResponse({ description: 'Updated user with ID.', type: User })
