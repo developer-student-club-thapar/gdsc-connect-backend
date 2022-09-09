@@ -25,8 +25,8 @@ export class UserService {
     return allUsers;
   }
 
-  async findOne(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email }).exec();
+  async findOne(email: string, showPassword: boolean): Promise<User> {
+    const user = await this.userModel.findOne({ email }).select(showPassword ? '+password' : '').exec();
     if (!user) throw new BadRequestException('No user registered with this email');
     return user;
   }

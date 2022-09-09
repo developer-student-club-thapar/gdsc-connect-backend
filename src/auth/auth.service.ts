@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) { }
 
   async validatePassword(email: string, password: string,): Promise<User | undefined> {
-    const user = await this.userService.findOne(email);
+    const user = await this.userService.findOne(email, true);
     if (await compare(password, user.password)) {
       return user;
     }
