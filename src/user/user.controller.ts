@@ -11,12 +11,12 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
+import { User } from './schemas/user.schema';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({
     description: 'Created new user.',
@@ -39,9 +39,9 @@ export class UserController {
   }
 
   @ApiOkResponse({ description: 'Returned user with ID.', type: User })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get(':email')
+  findOne(@Param('email') email: string) {
+    return this.userService.findOne(email);
   }
 
   @ApiOkResponse({ description: 'Updated user with ID.', type: User })

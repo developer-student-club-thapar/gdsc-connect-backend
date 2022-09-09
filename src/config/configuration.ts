@@ -4,4 +4,7 @@ export default () => ({
   dbConfig: {
     mongo_url: process.env.MONGO_URL,
   },
+  jwtConfig: {
+    secret: process.env.JWT_SECRET,
+  },
 });
