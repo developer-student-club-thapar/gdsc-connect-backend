@@ -1,27 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
-
-  async doUserRegistration(createUserDto: CreateUserDto): Promise<any> {
-    const createdUser = new this.userModel(createUserDto);
-    return await createdUser.save();
-  }
-
-  async getUserByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email }).exec();
-    return user;
-  }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
+    if (await this.userModel.findOne({ email: createUserDto.email }).exec()) {
+      throw new BadRequestException('User already exists');
+    }
+    createUserDto.password = await hash(createUserDto.password, 10);
     const createdUser = new this.userModel(createUserDto);
-    return await createdUser.save();
+    const user = await createdUser.save();
+    return { ...user.toObject(), password: undefined };
   }
 
   async findAll(): Promise<any> {
@@ -29,8 +25,10 @@ export class UserService {
     return allUsers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) throw new BadRequestException('No user registered with this email');
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
