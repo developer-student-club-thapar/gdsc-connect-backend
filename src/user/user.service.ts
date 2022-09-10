@@ -31,6 +31,17 @@ export class UserService {
     return user;
   }
 
+  async addTags(email: string, tags: string[]): Promise<User> {
+    try {
+      const user = await this.userModel.findOneAndUpdate({ email }, { $addToSet: { tags: tags } }, { new: true }).exec();
+      if (!user) throw new BadRequestException('No user registered with this email');
+      return user.save();
+    }
+    catch (err) {
+      throw new BadRequestException(err);
+    }
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
