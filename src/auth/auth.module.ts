@@ -7,15 +7,38 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import configuration from 'src/config/configuration';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Invite, InviteSchema } from './schemas/inv_email.schema';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [UserModule, PassportModule, JwtModule.registerAsync({
-    useFactory: () => ({
-      secret: configuration().jwtConfig.secret,
-      signOptions: { expiresIn: '7d' },
+  imports: [
+    MongooseModule.forFeature([{ name: Invite.name, schema: InviteSchema }]),
+    UserModule,
+    PassportModule,
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: configuration().jwtConfig.secret,
+        signOptions: { expiresIn: '7d' },
+      }),
     }),
-  }),],
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: configuration().invitecreds.host,
+          service: configuration().invitecreds.service,
+          auth: {
+            user: configuration().invitecreds.user,
+            pass: configuration().invitecreds.pass,
+          },
+        },
+        defaults: {
+          from: configuration().invitecreds.user,
+        },
+      }),
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
 })
-export class AuthModule { }
+export class AuthModule {}

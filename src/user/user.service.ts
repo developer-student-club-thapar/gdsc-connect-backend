@@ -8,7 +8,7 @@ import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     if (await this.userModel.findOne({ email: createUserDto.email }).exec()) {
@@ -26,18 +26,28 @@ export class UserService {
   }
 
   async findOne(email: string, showPassword: boolean): Promise<User> {
-    const user = await this.userModel.findOne({ email }).select(showPassword ? '+password' : '').exec();
-    if (!user) throw new BadRequestException('No user registered with this email');
+    const user = await this.userModel
+      .findOne({ email })
+      .select(showPassword ? '+password' : '')
+      .exec();
+    if (!user)
+      throw new BadRequestException('No user registered with this email');
     return user;
   }
 
   async addTags(email: string, tags: string[]): Promise<User> {
     try {
-      const user = await this.userModel.findOneAndUpdate({ email }, { $addToSet: { tags: tags } }, { new: true }).exec();
-      if (!user) throw new BadRequestException('No user registered with this email');
+      const user = await this.userModel
+        .findOneAndUpdate(
+          { email },
+          { $addToSet: { tags: tags } },
+          { new: true },
+        )
+        .exec();
+      if (!user)
+        throw new BadRequestException('No user registered with this email');
       return user.save();
-    }
-    catch (err) {
+    } catch (err) {
       throw new BadRequestException(err);
     }
   }

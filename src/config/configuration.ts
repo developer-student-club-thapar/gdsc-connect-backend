@@ -7,4 +7,10 @@ export default () => ({
   jwtConfig: {
     secret: process.env.JWT_SECRET,
   },
+  invitecreds: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+    service: process.env.SERVICE,
+    host: process.env.HOST,
+  },
 });

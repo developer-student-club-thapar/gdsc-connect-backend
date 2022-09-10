@@ -1,12 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import configuration from 'src/config/configuration';
 import { User } from 'src/user/schemas/user.schema';
 import { ReqWithUser } from './auth-interface.interface';
 import { AuthService } from './auth.service';
@@ -16,7 +11,13 @@ import { LocalAuthGuard } from './guards/local-auth-guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
+
+  @ApiOkResponse({ description: 'Send Invite' })
+  @Post('invite')
+  async invite(@Request() req): Promise<any> {
+    return this.authService.sendInvite(req.body.email);
+  }
 
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({ description: 'Login' })
