@@ -41,11 +41,18 @@ export class AuthService {
     const invitecode = Math.random().toString(36).substring(2, 10);
     const invite = new this.InviteModel({ email, invitecode });
     await invite.save();
+    const mail = {
+      invite: invitecode,
+      url: `http://localhost:3000/auth/register/${invitecode}`,
+    };
     try {
       await this.mailerService.sendMail({
         to: `${email}`,
         subject: 'Invite code for gdsc-connect',
-        text: `Invite code : ${invitecode}`,
+        template: './inviteTemplate',
+        context: {
+          Mail: mail,
+        },
       });
       return 'Invite sent';
     } catch (err) {

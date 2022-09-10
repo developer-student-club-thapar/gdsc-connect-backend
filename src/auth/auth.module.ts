@@ -10,6 +10,8 @@ import configuration from 'src/config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Invite, InviteSchema } from './schemas/inv_email.schema';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { join } from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -31,6 +33,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
             user: configuration().invitecreds.user,
             pass: configuration().invitecreds.pass,
           },
+        },
+        template: {
+          dir: join(__dirname, 'mails'),
+          adapter: new HandlebarsAdapter(),
         },
         defaults: {
           from: configuration().invitecreds.user,
