@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-
+import { SchemaTypes, Types } from 'mongoose';
 export class Socials {
   @ApiProperty()
   facebook: string;

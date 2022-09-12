@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Invite, InviteDocument } from 'src/auth/schemas/inv_email.schema';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UserInterface } from './interfaces/user-interface.interface';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
   async validatePassword(
     email: string,
     password: string,
-  ): Promise<User | undefined> {
+  ): Promise<UserInterface> {
     const user = await this.userService.findOne(email, true);
     if (await compare(password, user.password)) {
       return user;
@@ -30,8 +31,8 @@ export class AuthService {
     }
   }
 
-  async login(user: User) {
-    const payload = { useremail: user.email };
+  async login(user: any) {
+    const payload = { user_id: user._id };
     return { access_token: this.jwtService.sign(payload) };
   }
 

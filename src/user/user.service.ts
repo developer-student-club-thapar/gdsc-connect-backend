@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { hash } from 'bcrypt';
+import { UserInterface } from 'src/auth/interfaces/user-interface.interface';
 
 @Injectable()
 export class UserService {
@@ -25,14 +26,16 @@ export class UserService {
     return allUsers;
   }
 
-  async findOne(email: string, showPassword: boolean): Promise<User> {
+  async findOne(email: string, showPassword: boolean): Promise<UserInterface> {
     const user = await this.userModel
       .findOne({ email })
       .select(showPassword ? '+password' : '')
       .exec();
+
+    const userObj = { ...user.toObject(), _id: user._id.toString() };
     if (!user)
       throw new BadRequestException('No user registered with this email');
-    return user;
+    return userObj;
   }
 
   async addTags(email: string, tags: string[]): Promise<User> {

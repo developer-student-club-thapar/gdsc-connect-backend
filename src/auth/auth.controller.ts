@@ -1,9 +1,7 @@
 import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import configuration from 'src/config/configuration';
 import { User } from 'src/user/schemas/user.schema';
-import { ReqWithUser } from './auth-interface.interface';
+import { ReqWithUser } from './interfaces/auth-interface.interface';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth-guard';
