@@ -6,8 +6,6 @@ import { compare } from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Invite, InviteDocument } from 'src/auth/schemas/inv_email.schema';
-import * as nodemailer from 'nodemailer';
-import * as smtpTransport from 'nodemailer-smtp-transport';
 import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
