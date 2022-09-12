@@ -18,6 +18,11 @@ export class Socials {
   github: string;
 }
 
+enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+}
+
 @Schema()
 export class User {
   @ApiProperty()
@@ -74,6 +79,10 @@ export class User {
   @Prop({ select: false, required: true })
   @ApiProperty()
   password: string;
+
+  @Prop({ enum: Gender, default: Gender.MALE, required: true })
+  @ApiProperty()
+  gender: string;
 }
 
 export type UserDocument = User & Document;
