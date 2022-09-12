@@ -1,11 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class NameDto {
   @ApiProperty()
-  first: string;
+  first_name: string;
 
   @ApiProperty()
-  last: string;
+  last_name: string;
 }
 
 export class SocialsDto {
@@ -23,7 +23,7 @@ export class SocialsDto {
 
   @ApiProperty()
   github: string;
-};
+}
 
 export class CreateUserDto {
   @ApiProperty()

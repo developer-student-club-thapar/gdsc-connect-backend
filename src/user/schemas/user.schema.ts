@@ -1,14 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class Name {
-  @ApiProperty()
-  first: string;
-
-  @ApiProperty()
-  last: string;
-}
-
 export class Socials {
   @ApiProperty()
   facebook: string;
@@ -28,6 +20,12 @@ export class Socials {
 
 @Schema()
 export class User {
+  @ApiProperty()
+  first_name: string;
+
+  @ApiProperty()
+  last_name: string;
+
   @Prop({
     enum: ['admin', 'member'],
     default: 'member',
@@ -56,10 +54,6 @@ export class User {
   })
   @ApiProperty()
   tags: string[];
-
-  @Prop({ type: Name, required: true })
-  @ApiProperty()
-  name: Name;
 
   @Prop({ type: Socials, required: false })
   @ApiProperty()
