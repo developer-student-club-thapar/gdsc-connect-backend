@@ -24,15 +24,14 @@ export class Socials {
 
   @ApiProperty()
   github: string;
-};
+}
 
 @Schema()
 export class User {
-
   @Prop({
     enum: ['admin', 'member'],
     default: 'member',
-    required: true
+    required: true,
   })
   @ApiProperty()
   role: string;
@@ -46,11 +45,14 @@ export class User {
   graduation_batch: number;
 
   @Prop({
-    type: [{
-      type: String,
-      enum: ['tag1', 'tag2', 'tag3'],
-      required: false
-    }], default: []
+    type: [
+      {
+        type: String,
+        enum: ['tag1', 'tag2', 'tag3'],
+        required: false,
+      },
+    ],
+    default: [],
   })
   @ApiProperty()
   tags: string[];

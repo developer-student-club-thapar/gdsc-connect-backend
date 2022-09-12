@@ -59,4 +59,18 @@ export class AuthService {
       console.log(err);
     }
   }
+
+  //register route
+  async register(body: any) {
+    const invite = await this.InviteModel.findOne({
+      invitecode: body.invite,
+      email: body.email,
+    });
+    if (invite) {
+      const user = await this.userService.create(body);
+      return user;
+    } else {
+      throw new BadRequestException('Invalid Invite or Email');
+    }
+  }
 }

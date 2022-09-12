@@ -16,14 +16,14 @@ import { User } from './schemas/user.schema';
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({
     description: 'Created new user.',
     type: User,
     isArray: true,
   })
-  @Post()
+  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }

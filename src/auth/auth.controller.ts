@@ -32,4 +32,11 @@ export class AuthController {
   getProfile(@Request() req): User {
     return req.user;
   }
+
+  //register route
+  @ApiOkResponse({ description: 'Register' })
+  @Post('register')
+  async register(@Request() req): Promise<any> {
+    return this.authService.register(req.body);
+  }
 }
