@@ -7,40 +7,17 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import configuration from 'src/config/configuration';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Invite, InviteSchema } from './schemas/invite-email.schema';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { join } from 'path';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Invite.name, schema: InviteSchema }]),
     UserModule,
+    AdminModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: configuration().jwtConfig.secret,
         signOptions: { expiresIn: '7d' },
-      }),
-    }),
-    MailerModule.forRootAsync({
-      useFactory: () => ({
-        transport: {
-          host: configuration().invitecreds.host,
-          service: configuration().invitecreds.service,
-          auth: {
-            user: configuration().invitecreds.user,
-            pass: configuration().invitecreds.pass,
-          },
-        },
-        template: {
-          dir: join(__dirname, 'mails'),
-          adapter: new HandlebarsAdapter(),
-        },
-        defaults: {
-          from: configuration().invitecreds.user,
-        },
       }),
     }),
   ],

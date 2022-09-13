@@ -1,23 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-import { User } from 'src/user/schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Invite, InviteDocument } from 'src/auth/schemas/invite-email.schema';
-import { MailerService } from '@nestjs-modules/mailer';
 import { UserInterface } from './interfaces/user-interface.interface';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { AdminService } from 'src/admin/admin.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private mailerService: MailerService,
-    @InjectModel(Invite.name)
-    private InviteModel: Model<InviteDocument>,
     private userService: UserService,
     private jwtService: JwtService,
+    private adminService: AdminService,
   ) {}
 
   async validatePassword(
@@ -37,35 +31,12 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async sendInvite(email: string) {
-    const invite_code = Math.random().toString(36).substring(2, 10);
-    const invite = new this.InviteModel({ email, invite_code });
-    await invite.save();
-    const mail = {
-      invite: invite_code,
-      url: `http://localhost:3000/auth/register/${invite_code}`,
-    };
-    try {
-      await this.mailerService.sendMail({
-        to: `${email}`,
-        subject: 'Invite code for gdsc-connect',
-        template: './inviteTemplate',
-        context: {
-          Mail: mail,
-        },
-      });
-      return 'Invite sent';
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   //register route
   async register(registerUserDto: RegisterUserDto) {
-    const invite = await this.InviteModel.findOne({
-      invite_code: registerUserDto.invite_code,
-      email: registerUserDto.email,
-    });
+    const invite = await this.adminService.findInvite(
+      registerUserDto.invite_code,
+      registerUserDto.email,
+    );
     if (invite) {
       delete registerUserDto.invite_code;
       const user = await this.userService.create(registerUserDto);

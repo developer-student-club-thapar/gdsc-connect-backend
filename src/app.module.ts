@@ -9,6 +9,7 @@ import { UtilityModule } from './utility/utility.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ConfigModule } from '@nestjs/config';
     JobModule,
     ChatModule,
     UtilityModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

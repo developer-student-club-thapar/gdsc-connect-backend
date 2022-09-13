@@ -19,12 +19,6 @@ import { RegisterUserDto } from './dto/register-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOkResponse({ description: 'Send Invite' })
-  @Post('invite')
-  async invite(@Body() body: any): Promise<any> {
-    return this.authService.sendInvite(body.email);
-  }
-
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({ description: 'Login' })
   @Post('login')

@@ -3,7 +3,7 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": ["auth/mails/**.hbs"],
+    "assets": ["admin/mails/**.hbs"],
     "watchAssets": true
   }
 }

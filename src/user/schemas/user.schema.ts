@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { SchemaTypes, Types } from 'mongoose';
 export class Socials {
   @ApiProperty()
   facebook: string;
@@ -23,6 +22,11 @@ enum Gender {
   FEMALE = 'female',
 }
 
+enum Role {
+  ADMIN = 'admin',
+  MEMBER = 'member',
+}
+
 @Schema()
 export class User {
   @ApiProperty()
@@ -32,8 +36,8 @@ export class User {
   last_name: string;
 
   @Prop({
-    enum: ['admin', 'member'],
-    default: 'member',
+    enum: Role,
+    default: Role.MEMBER,
     required: true,
   })
   @ApiProperty()
