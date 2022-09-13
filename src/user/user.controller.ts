@@ -19,16 +19,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({
-    description: 'Created new user.',
-    type: User,
-    isArray: true,
-  })
-  @Post('register')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @ApiOkResponse({
     description: 'Returned all user.',
     type: User,
     isArray: true,
