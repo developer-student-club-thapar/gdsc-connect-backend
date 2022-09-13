@@ -5,9 +5,10 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Invite, InviteDocument } from 'src/auth/schemas/inv_email.schema';
+import { Invite, InviteDocument } from 'src/auth/schemas/invite-email.schema';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserInterface } from './interfaces/user-interface.interface';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -60,13 +61,14 @@ export class AuthService {
   }
 
   //register route
-  async register(body: any) {
+  async register(registerUserDto: RegisterUserDto) {
     const invite = await this.InviteModel.findOne({
-      invitecode: body.invite,
-      email: body.email,
+      invite_code: registerUserDto.invite_code,
+      email: registerUserDto.email,
     });
     if (invite) {
-      const user = await this.userService.create(body);
+      delete registerUserDto.invite_code;
+      const user = await this.userService.create(registerUserDto);
       return user;
     } else {
       throw new BadRequestException('Invalid Invite or Email');

@@ -8,7 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import configuration from 'src/config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Invite, InviteSchema } from './schemas/inv_email.schema';
+import { Invite, InviteSchema } from './schemas/invite-email.schema';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';

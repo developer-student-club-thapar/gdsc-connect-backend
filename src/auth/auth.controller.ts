@@ -1,10 +1,18 @@
-import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Request,
+  Body,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/user/schemas/user.schema';
 import { ReqWithUser } from './interfaces/auth-interface.interface';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth-guard';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -13,8 +21,8 @@ export class AuthController {
 
   @ApiOkResponse({ description: 'Send Invite' })
   @Post('invite')
-  async invite(@Request() req): Promise<any> {
-    return this.authService.sendInvite(req.body.email);
+  async invite(@Body() body: any): Promise<any> {
+    return this.authService.sendInvite(body.email);
   }
 
   @UseGuards(LocalAuthGuard)
@@ -34,7 +42,7 @@ export class AuthController {
   //register route
   @ApiOkResponse({ description: 'Register' })
   @Post('register')
-  async register(@Request() req): Promise<any> {
-    return this.authService.register(req.body);
+  async register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
+    return this.authService.register(registerUserDto);
   }
 }

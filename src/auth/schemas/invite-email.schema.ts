@@ -9,7 +9,7 @@ export class Invite {
 
   @Prop({ required: true })
   @ApiProperty()
-  invitecode: string;
+  invite_code: string;
 }
 
 export type InviteDocument = Invite & Document;
