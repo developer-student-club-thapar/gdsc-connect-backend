@@ -38,12 +38,12 @@ export class AuthService {
   }
 
   async sendInvite(email: string) {
-    const invitecode = Math.random().toString(36).substring(2, 10);
-    const invite = new this.InviteModel({ email, invitecode });
+    const invite_code = Math.random().toString(36).substring(2, 10);
+    const invite = new this.InviteModel({ email, invite_code });
     await invite.save();
     const mail = {
-      invite: invitecode,
-      url: `http://localhost:3000/auth/register/${invitecode}`,
+      invite: invite_code,
+      url: `http://localhost:3000/auth/register/${invite_code}`,
     };
     try {
       await this.mailerService.sendMail({

@@ -35,7 +35,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'Get profile', type: User })
   @Get('profile')
-  getProfile(@Request() req): User {
+  getProfile(@Request() req: ReqWithUser): User {
     return req.user;
   }
 
