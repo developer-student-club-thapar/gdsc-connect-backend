@@ -62,4 +62,11 @@ export class UserService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async findById(id: string): Promise<UserInterface> {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) throw new BadRequestException('No user found with this id');
+    const userObj = { ...user.toObject(), _id: user._id.toString() };
+    return userObj;
+  }
 }

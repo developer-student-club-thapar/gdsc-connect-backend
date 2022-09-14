@@ -13,9 +13,11 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth-guard';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { ResourceDecorator } from '../resource.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
+@ResourceDecorator('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -23,6 +25,7 @@ export class AuthController {
   @ApiOkResponse({ description: 'Login' })
   @Post('login')
   async login(@Request() req: ReqWithUser): Promise<any> {
+    console.log('here');
     return this.authService.login(req.user);
   }
 

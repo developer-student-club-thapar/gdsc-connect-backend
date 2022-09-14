@@ -1,5 +1,4 @@
 import {
-  ConsoleLogger,
   ExecutionContext,
   ForbiddenException,
   Injectable,
