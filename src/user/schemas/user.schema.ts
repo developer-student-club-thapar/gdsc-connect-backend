@@ -29,9 +29,11 @@ enum Role {
 
 @Schema()
 export class User {
+  @Prop({ required: true })
   @ApiProperty()
   first_name: string;
 
+  @Prop({ required: true })
   @ApiProperty()
   last_name: string;
 
@@ -84,7 +86,7 @@ export class User {
   @ApiProperty()
   password: string;
 
-  @Prop({ enum: Gender, default: Gender.MALE, required: true })
+  @Prop({ enum: Gender, required: true })
   @ApiProperty()
   gender: string;
 }
