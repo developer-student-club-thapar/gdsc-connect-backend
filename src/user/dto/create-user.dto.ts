@@ -27,16 +27,10 @@ export class SocialsDto {
 
 export class CreateUserDto {
   @ApiProperty()
-  role: string;
-
-  @ApiProperty()
   email: string;
 
   @ApiProperty()
   graduation_batch: number;
-
-  @ApiProperty()
-  tags: string[];
 
   @ApiProperty()
   name: NameDto;

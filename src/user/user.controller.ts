@@ -5,17 +5,19 @@ import {
   Body,
   Patch,
   Param,
+  Request,
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './schemas/user.schema';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({
     description: 'Returned all user.',
@@ -38,10 +40,12 @@ export class UserController {
     return this.userService.addTags(email, tags);
   }
 
-  @ApiOkResponse({ description: 'Updated user with ID.', type: User })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch('changePassword')
+  changePassword(
+    @Request() req,
+    @Body() updatePasswordDto: Omit<UpdatePasswordDto, 'user'>,
+  ) {
+    return this.userService.changePassword({ ...updatePasswordDto, user: req.user });
   }
 
   @ApiOkResponse({ description: 'Deleted user with ID.', type: User })
