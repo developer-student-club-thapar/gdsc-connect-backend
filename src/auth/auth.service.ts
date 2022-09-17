@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { UserInterface } from './interfaces/user-interface.interface';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { AdminService } from 'src/admin/admin.service';
+import { User } from 'src/user/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -14,11 +14,8 @@ export class AuthService {
     private adminService: AdminService,
   ) {}
 
-  async validatePassword(
-    email: string,
-    password: string,
-  ): Promise<UserInterface> {
-    const user = await this.userService.findOne(email, true);
+  async validatePassword(email: string, password: string): Promise<User> {
+    const user = await this.userService.findUser(email, true);
     if (await compare(password, user.password)) {
       return user;
     } else {

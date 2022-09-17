@@ -29,6 +29,7 @@ enum Role {
 
 @Schema()
 export class User {
+  _id: string;
   @Prop({ required: true })
   @ApiProperty()
   first_name: string;

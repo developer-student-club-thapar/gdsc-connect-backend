@@ -17,7 +17,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({
     description: 'Returned all user.',
@@ -32,7 +32,7 @@ export class UserController {
   @ApiOkResponse({ description: 'Returned user with ID.', type: User })
   @Get(':email')
   findOne(@Param('email') email: string) {
-    return this.userService.findOne(email, false);
+    return this.userService.findUser(email, false);
   }
 
   @Patch(':email/tags')
@@ -45,7 +45,10 @@ export class UserController {
     @Request() req,
     @Body() updatePasswordDto: Omit<UpdatePasswordDto, 'user'>,
   ) {
-    return this.userService.changePassword({ ...updatePasswordDto, user: req.user });
+    return this.userService.changePassword({
+      ...updatePasswordDto,
+      user: req.user,
+    });
   }
 
   @ApiOkResponse({ description: 'Deleted user with ID.', type: User })

@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
 import { AdminService } from './admin.service';
 import { InviteUserDto } from './dto/invite-user.dto';
 
@@ -12,5 +13,10 @@ export class AdminController {
   @Post('invite')
   invite(@Body() inviteUserDto: InviteUserDto) {
     return this.adminService.sendInvite(inviteUserDto);
+  }
+  @Get('')
+  test(@Req() req: ReqWithUser) {
+    console.log(req.user);
+    return req.user;
   }
 }

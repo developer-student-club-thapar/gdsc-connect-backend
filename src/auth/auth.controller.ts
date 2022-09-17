@@ -25,7 +25,6 @@ export class AuthController {
   @ApiOkResponse({ description: 'Login' })
   @Post('login')
   async login(@Request() req: ReqWithUser): Promise<any> {
-    console.log('here');
     return this.authService.login(req.user);
   }
 

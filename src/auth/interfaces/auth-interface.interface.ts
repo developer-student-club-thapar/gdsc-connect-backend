@@ -1,3 +1,3 @@
-import { UserInterface } from './user-interface.interface';
+import { User } from 'src/user/schemas/user.schema';
 
-export type ReqWithUser = Request & { user: UserInterface };
+export type ReqWithUser = Request & { user: User };
