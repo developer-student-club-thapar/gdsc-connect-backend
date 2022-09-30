@@ -1,3 +1,4 @@
+# pull node
 FROM node:latest as base
 
 WORKDIR /usr/src/app
@@ -10,6 +11,7 @@ RUN npm i --legacy-peer-deps
 
 RUN npm i -g rimraf
 
+# build the nestjs api
 FROM base as build
 
 WORKDIR /usr/src/app
@@ -18,6 +20,7 @@ COPY . .
 
 RUN npm run build
 
+# create final api image
 FROM node:18-alpine
 
 WORKDIR /usr/src/app
