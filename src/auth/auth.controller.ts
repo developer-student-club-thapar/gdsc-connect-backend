@@ -1,25 +1,26 @@
 import {
   Controller,
-  Get,
   Post,
   UseGuards,
   Request,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/user/schemas/user.schema';
 import { ReqWithUser } from './interfaces/auth-interface.interface';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth-guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { ResourceDecorator } from '../resource.decorator';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 @ResourceDecorator('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({ description: 'Login' })
@@ -28,17 +29,21 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiOkResponse({ description: 'Get profile', type: User })
-  @Get('profile')
-  getProfile(@Request() req: ReqWithUser): User {
-    return req.user;
+  @Patch('forgot-password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<any> {
+    return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
-  //register route
+  @UseGuards(JwtAuthGuard)
+  @Patch('reset-password')
+  async resetPassword(@Request() req: ReqWithUser, @Body() resetPasswordDto: Omit<ResetPasswordDto, 'user'>): Promise<any> {
+    return this.authService.resetPassword({ ...resetPasswordDto, user: req.user });
+  }
+
   @ApiOkResponse({ description: 'Register' })
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
+    console.log(registerUserDto);
     return this.authService.register(registerUserDto);
   }
 }

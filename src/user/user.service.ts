@@ -9,7 +9,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     if (await this.userModel.findOne({ email: createUserDto.email }).exec()) {
@@ -23,11 +23,6 @@ export class UserService {
       _id: user._id.toString(),
       password: undefined,
     };
-  }
-
-  async findAll(): Promise<any> {
-    const allUsers = await this.userModel.find().exec();
-    return allUsers;
   }
 
   async findUser(email: string, showPassword: boolean): Promise<User> {
@@ -77,7 +72,7 @@ export class UserService {
     return user;
   }
 
-  async changePassword(updatePasswordDto: UpdatePasswordDto): Promise<User> {
+  async updatePassword(updatePasswordDto: UpdatePasswordDto): Promise<User> {
     if (!updatePasswordDto.user)
       throw new BadRequestException(
         'No updatePasswordDto.user found with this id',
@@ -91,7 +86,24 @@ export class UserService {
     user.password = await hash(updatePasswordDto.newPassword, 10);
     await user.save();
 
-    // remove password from user object
+    return {
+      ...user.toObject(),
+      _id: user._id.toString(),
+      password: undefined,
+    };
+  }
+
+  async resetPassword(updatePasswordDto: Omit<UpdatePasswordDto, 'oldPassword'>): Promise<User> {
+    const userData = { ...updatePasswordDto };
+    const user = await this.userModel
+      .findById(userData.user._id)
+      .select('+password')
+      .exec();
+    if (!user)
+      throw new BadRequestException('No user registered with this email');
+    user.password = await hash(userData.newPassword, 10);
+    await user.save();
+
     return {
       ...user.toObject(),
       _id: user._id.toString(),
