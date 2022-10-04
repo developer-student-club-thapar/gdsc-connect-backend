@@ -1,13 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class NameDto {
-  @ApiProperty()
-  first_name: string;
-
-  @ApiProperty()
-  last_name: string;
-}
-
 export class SocialsDto {
   @ApiProperty()
   facebook: string;
@@ -33,7 +25,10 @@ export class CreateUserDto {
   graduation_batch: number;
 
   @ApiProperty()
-  name: NameDto;
+  first_name: string;
+
+  @ApiProperty()
+  last_name: string;
 
   @ApiProperty()
   socials: SocialsDto;

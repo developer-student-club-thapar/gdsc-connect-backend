@@ -18,22 +18,18 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({
-    description: 'Returned all user.',
-    type: User,
-    isArray: true,
+    description: 'Get profile',
+    type: User
   })
-
-  @ApiOkResponse({ description: 'Get profile', type: User })
   @Get('profile')
   getProfile(@Request() req: ReqWithUser): User {
     return req.user;
   }
 
-  @Patch(':email/tags')
-  addTags(@Body() tags: string[], @Param('email') email: string) {
-    return this.userService.addTags(email, tags);
-  }
-
+  @ApiOkResponse({
+    description: 'Updated user password',
+    type: User,
+  })
   @Patch('update-password')
   updatePassword(
     @Request() req,

@@ -15,6 +15,7 @@ import { ResourceDecorator } from '../resource.decorator';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { User } from 'src/user/schemas/user.schema';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,23 +24,27 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @UseGuards(LocalAuthGuard)
-  @ApiOkResponse({ description: 'Login' })
+  @ApiOkResponse({
+    description: 'Returns user auth token',
+  })
   @Post('login')
   async login(@Request() req: ReqWithUser): Promise<any> {
     return this.authService.login(req.user);
   }
 
+  @ApiOkResponse({ description: 'Sent email with reset password link', type: String })
   @Patch('forgot-password')
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<any> {
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
+  @ApiOkResponse({ description: 'Password reset successfully', type: User })
   @Patch('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<any> {
     return this.authService.resetPassword(resetPasswordDto);
   }
 
-  @ApiOkResponse({ description: 'Register' })
+  @ApiOkResponse({ description: 'New user registered', type: User })
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
     console.log(registerUserDto);
