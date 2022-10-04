@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+  gdsc_connect_api:
+    platform: linux/amd64
+    image: gdsc-connect-backend:latest
+    container_name: gdsc_connect_api
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile

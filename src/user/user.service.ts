@@ -36,36 +36,6 @@ export class UserService {
     return user;
   }
 
-  async addTags(email: string, tags: string[]): Promise<User> {
-    try {
-      const user = await this.userModel
-        .findOneAndUpdate(
-          { email },
-          { $addToSet: { tags: tags } },
-          { new: true },
-        )
-        .exec();
-      if (!user)
-        throw new BadRequestException('No user registered with this email');
-      await user.save();
-      return {
-        ...user.toObject(),
-        _id: user._id.toString(),
-        password: undefined,
-      };
-    } catch (err) {
-      throw new BadRequestException(err);
-    }
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
   async findById(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
     if (!user) throw new BadRequestException('No user found with this id');
