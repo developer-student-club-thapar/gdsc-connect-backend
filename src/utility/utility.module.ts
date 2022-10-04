@@ -4,6 +4,6 @@ import { UtilityController } from './utility.controller';
 
 @Module({
   controllers: [UtilityController],
-  providers: [UtilityService]
+  providers: [UtilityService],
 })
 export class UtilityModule {}

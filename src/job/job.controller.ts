@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { JobService } from './job.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -8,7 +16,7 @@ import { Job } from './entities/job.entity';
 @ApiTags('job')
 @Controller('job')
 export class JobController {
-  constructor(private readonly jobService: JobService) { }
+  constructor(private readonly jobService: JobService) {}
 
   @ApiOkResponse({ description: 'Created new job.', type: Job })
   @Post()
@@ -16,7 +24,11 @@ export class JobController {
     return this.jobService.create(createJobDto);
   }
 
-  @ApiOkResponse({ description: 'Returned all jobs.', type: Job, isArray: true })
+  @ApiOkResponse({
+    description: 'Returned all jobs.',
+    type: Job,
+    isArray: true,
+  })
   @Get()
   findAll() {
     return this.jobService.findAll();

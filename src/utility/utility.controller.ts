@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UtilityService } from './utility.service';
 import { CreateUtilityDto } from './dto/create-utility.dto';
 import { UpdateUtilityDto } from './dto/update-utility.dto';
@@ -8,7 +16,7 @@ import { Utility } from './entities/utility.entity';
 @ApiTags('utility')
 @Controller('utility')
 export class UtilityController {
-  constructor(private readonly utilityService: UtilityService) { }
+  constructor(private readonly utilityService: UtilityService) {}
 
   @ApiOkResponse({ description: 'Created new utility.', type: Utility })
   @Post()
@@ -16,7 +24,11 @@ export class UtilityController {
     return this.utilityService.create(createUtilityDto);
   }
 
-  @ApiOkResponse({ description: 'Returned all utilities.', type: Utility, isArray: true })
+  @ApiOkResponse({
+    description: 'Returned all utilities.',
+    type: Utility,
+    isArray: true,
+  })
   @Get()
   findAll() {
     return this.utilityService.findAll();

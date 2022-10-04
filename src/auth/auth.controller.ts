@@ -1,42 +1,48 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Body,
+  Patch,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ReqWithUser } from './interfaces/auth-interface.interface';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { Auth } from './entities/auth.entity';
+import { LocalAuthGuard } from './guards/local-auth-guard';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { ResourceDecorator } from '../resource.decorator';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
+@ResourceDecorator('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
-  @ApiOkResponse({ description: 'Created new user.', type: Auth })
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @UseGuards(LocalAuthGuard)
+  @ApiOkResponse({ description: 'Login' })
+  @Post('login')
+  async login(@Request() req: ReqWithUser): Promise<any> {
+    return this.authService.login(req.user);
   }
 
-  @ApiOkResponse({ description: 'Returned all users.', type: Auth, isArray: true })
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Patch('forgot-password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<any> {
+    return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
-  @ApiOkResponse({ description: 'Returned user with ID.', type: Auth })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  @Patch('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<any> {
+    return this.authService.resetPassword(resetPasswordDto);
   }
 
-  @ApiOkResponse({ description: 'Updated user with ID.', type: Auth })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @ApiOkResponse({ description: 'Deleted user with ID.', type: Auth })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @ApiOkResponse({ description: 'Register' })
+  @Post('register')
+  async register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
+    console.log(registerUserDto);
+    return this.authService.register(registerUserDto);
   }
 }
