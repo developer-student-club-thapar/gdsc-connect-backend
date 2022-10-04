@@ -8,6 +8,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import configuration from 'src/config/configuration';
 import { AdminModule } from 'src/admin/admin.module';
+import { Token, TokenSchema } from './schemas/token.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { AdminModule } from 'src/admin/admin.module';
         signOptions: { expiresIn: '7d' },
       }),
     }),
+    MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

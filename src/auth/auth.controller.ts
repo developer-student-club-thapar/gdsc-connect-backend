@@ -34,10 +34,9 @@ export class AuthController {
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch('reset-password')
-  async resetPassword(@Request() req: ReqWithUser, @Body() resetPasswordDto: Omit<ResetPasswordDto, 'user'>): Promise<any> {
-    return this.authService.resetPassword({ ...resetPasswordDto, user: req.user });
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<any> {
+    return this.authService.resetPassword(resetPasswordDto);
   }
 
   @ApiOkResponse({ description: 'Register' })
