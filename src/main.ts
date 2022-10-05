@@ -9,9 +9,11 @@ async function bootstrap() {
     .setTitle('GDSC Connect API')
     .setDescription('The GDSC Connect API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+  app.enableCors({});
   await app.listen(configuration().port);
 }
 bootstrap();
