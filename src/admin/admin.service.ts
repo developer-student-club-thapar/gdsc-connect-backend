@@ -11,7 +11,7 @@ export class AdminService {
   constructor(
     private mailerService: MailerService,
     @InjectModel(Invite.name) private InviteModel: Model<Invite>,
-  ) { }
+  ) {}
 
   async sendInvite(inviteUserDto: InviteUserDto) {
     const invite_code = Math.random().toString(36).substring(2, 10);

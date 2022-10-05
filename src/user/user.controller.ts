@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Body,
-  Patch,
-  Param,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Request } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './schemas/user.schema';
@@ -15,11 +8,11 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({
     description: 'Get profile',
-    type: User
+    type: User,
   })
   @Get('profile')
   getProfile(@Request() req: ReqWithUser): User {

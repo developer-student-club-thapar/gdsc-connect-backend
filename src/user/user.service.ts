@@ -9,7 +9,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     if (await this.userModel.findOne({ email: createUserDto.email }).exec()) {
@@ -63,7 +63,9 @@ export class UserService {
     };
   }
 
-  async resetPassword(updatePasswordDto: Omit<UpdatePasswordDto, 'oldPassword'>): Promise<User> {
+  async resetPassword(
+    updatePasswordDto: Omit<UpdatePasswordDto, 'oldPassword'>,
+  ): Promise<User> {
     const userData = { ...updatePasswordDto };
     const user = await this.userModel
       .findById(userData.user._id)

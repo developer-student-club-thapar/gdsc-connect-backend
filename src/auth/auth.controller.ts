@@ -21,7 +21,7 @@ import { User } from 'src/user/schemas/user.schema';
 @Controller('auth')
 @ResourceDecorator('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({
@@ -32,15 +32,22 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @ApiOkResponse({ description: 'Sent email with reset password link', type: String })
+  @ApiOkResponse({
+    description: 'Sent email with reset password link',
+    type: String,
+  })
   @Patch('forgot-password')
-  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<any> {
+  async forgotPassword(
+    @Body() forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<any> {
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
   @ApiOkResponse({ description: 'Password reset successfully', type: User })
   @Patch('reset-password')
-  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<any> {
+  async resetPassword(
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ): Promise<any> {
     return this.authService.resetPassword(resetPasswordDto);
   }
 
