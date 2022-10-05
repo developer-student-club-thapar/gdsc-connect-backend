@@ -8,7 +8,7 @@ import { User } from 'src/user/schemas/user.schema';
 import { MailerService } from '@nestjs-modules/mailer';
 import configuration from 'src/config/configuration';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { Token, TokenDocument,  } from './schemas/token.schema';
+import { Token, TokenDocument } from './schemas/token.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -19,8 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
     private adminService: AdminService,
     private mailerService: MailerService,
-    @InjectModel(Token.name) private tokenModel: Model<TokenDocument>
-  ) { }
+    @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
+  ) {}
 
   async validatePassword(email: string, password: string): Promise<User> {
     const user = await this.userService.findUser(email, true);
@@ -63,7 +63,9 @@ export class AuthService {
         throw new BadRequestException('No user registered with this email');
       }
       const payload = { user_id: user._id, type: 'password' };
-      const access_token = this.jwtService.sign(payload, { expiresIn: Date.now() + 1800000 });
+      const access_token = this.jwtService.sign(payload, {
+        expiresIn: Date.now() + 1800000,
+      });
       const mail = {
         url: `${configuration().app_url}/user/reset-password/${access_token}`,
       };
@@ -75,7 +77,10 @@ export class AuthService {
           Mail: mail,
         },
       });
-      const newToken = new this.tokenModel({ email: email, access_token: access_token });
+      const newToken = new this.tokenModel({
+        email: email,
+        access_token: access_token,
+      });
       await newToken.save();
       return 'Password Reset link sent';
     } catch (err) {
@@ -86,7 +91,9 @@ export class AuthService {
 
   async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<User> {
     try {
-      const token = await this.tokenModel.findOne({ access_token: resetPasswordDto.access_token }).exec();
+      const token = await this.tokenModel
+        .findOne({ access_token: resetPasswordDto.access_token })
+        .exec();
       if (!token) {
         throw new BadRequestException('Invalid Token');
       }
@@ -98,8 +105,7 @@ export class AuthService {
       });
       await token.remove();
       return user;
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
       throw new BadRequestException(err.message);
     }

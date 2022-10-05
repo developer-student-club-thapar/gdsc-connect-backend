@@ -3,13 +3,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Schema()
 export class Token {
-    @Prop({ required: true, unique: true })
-    @ApiProperty()
-    access_token: string;
+  @Prop({ required: true, unique: true })
+  @ApiProperty()
+  access_token: string;
 
-    @Prop({ required: true, unique: true })
-    @ApiProperty()
-    email: string;
+  @Prop({ required: true, unique: true })
+  @ApiProperty()
+  email: string;
 }
 
 export type TokenDocument = Token & Document;
