@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Body, Req } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
 import { AdminService } from './admin.service';
 import { InviteUserDto } from './dto/invite-user.dto';
 
 @ApiTags('admin')
+@ApiBearerAuth()
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
