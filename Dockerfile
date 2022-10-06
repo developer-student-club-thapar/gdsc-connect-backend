@@ -7,7 +7,7 @@ RUN npm i -g npm@8.13.1
 
 COPY package.json ./
 
-RUN npm i --legacy-peer-deps
+RUN npm i
 
 RUN npm i -g rimraf
 
@@ -28,14 +28,12 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 
-COPY service-account-file.json ./
-
 RUN npm i -g npm@8.13.1
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-RUN npm install --omit=dev --legacy-peer-deps
+RUN npm install --omit=dev
 
 COPY --from=build /usr/src/app/dist ./dist
 
