@@ -25,6 +25,7 @@ enum Gender {
 enum Role {
   ADMIN = 'admin',
   MEMBER = 'member',
+  SUPER = 'super',
 }
 
 @Schema()
