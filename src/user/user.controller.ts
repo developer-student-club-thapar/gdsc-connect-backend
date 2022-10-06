@@ -1,11 +1,12 @@
 import { Controller, Get, Body, Patch, Param, Request } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './schemas/user.schema';
 import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @ApiTags('user')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -25,7 +26,7 @@ export class UserController {
   })
   @Patch('update-password')
   updatePassword(
-    @Request() req,
+    @Request() req: ReqWithUser,
     @Body() updatePasswordDto: Omit<UpdatePasswordDto, 'user'>,
   ) {
     return this.userService.updatePassword({
