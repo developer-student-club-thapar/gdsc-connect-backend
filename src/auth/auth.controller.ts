@@ -6,7 +6,7 @@ import {
   Body,
   Patch,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ReqWithUser } from './interfaces/auth-interface.interface';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth-guard';

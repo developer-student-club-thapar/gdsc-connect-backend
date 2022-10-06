@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
@@ -15,6 +15,7 @@ export class UserGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const whitelistedResources = ['auth', 'app'];
+    const adminModules = ['admin', 'super'];
 
     console.log('CALLING USER GUARD');
     const request: ReqWithUser = context.switchToHttp().getRequest();
@@ -43,6 +44,12 @@ export class UserGuard implements CanActivate {
     }
 
     const user = await this._userService.findById(userId);
+    console.log('Here');
+    if (adminModules.includes(resource) && !adminModules.includes(user.role)) {
+      console.log('NOT SUPERADMIN');
+      throw new ForbiddenException("Token is not superadmin");
+    }
+
     if (!user) {
       console.log('NO USER FOUND');
       return false;

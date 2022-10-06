@@ -7,6 +7,7 @@ export default () => ({
   },
   jwtConfig: {
     secret: process.env.JWT_SECRET,
+    timeout: process.env.JWT_TIMEOUT,
   },
   invitecreds: {
     user: process.env.EMAIL_USER,
