@@ -3,7 +3,6 @@ import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { AdminService } from 'src/admin/admin.service';
 import { User } from 'src/user/schemas/user.schema';
 import { MailerService } from '@nestjs-modules/mailer';
 import configuration from 'src/config/configuration';
@@ -11,13 +10,14 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { Token, TokenDocument } from './schemas/token.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { SuperadminService } from 'src/superadmin/superadmin.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-    private adminService: AdminService,
+    private superadminService: SuperadminService,
     private mailerService: MailerService,
     @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
   ) {}
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<User> {
-    const invite = await this.adminService.findInvite(
+    const invite = await this.superadminService.findInvite(
       registerUserDto.invite_code,
       registerUserDto.email,
     );

@@ -7,18 +7,19 @@ import { JobModule } from './job/job.module';
 import { ChatModule } from './chat/chat.module';
 import { UtilityModule } from './utility/utility.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { UserGuard } from './user.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { SuperadminModule } from './superadmin/superadmin.module';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: configuration().jwtConfig.secret,
-        signOptions: { expiresIn: '7d' },
+        signOptions: { expiresIn: configuration().jwtConfig.timeout },
       }),
     }),
     ConfigModule.forRoot({
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
     ChatModule,
     UtilityModule,
     AdminModule,
+    SuperadminModule,
   ],
   controllers: [AppController],
   providers: [
