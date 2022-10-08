@@ -12,6 +12,7 @@ import { AdminModule } from './admin/admin.module';
 import { UserGuard } from './user.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { SuperadminModule } from './superadmin/superadmin.module';
+import { GroupModule } from './group/group.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -34,6 +35,7 @@ import configuration from './config/configuration';
     UtilityModule,
     AdminModule,
     SuperadminModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [
