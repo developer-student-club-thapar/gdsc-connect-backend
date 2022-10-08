@@ -11,7 +11,7 @@ import { ResourceDecorator } from 'src/resource.decorator';
 @Controller('superadmin')
 export class SuperadminController {
   constructor(private readonly superadminService: SuperadminService) {}
-  
+
   @ApiOkResponse({ description: 'Send invite to user' })
   @Post('invite')
   invite(@Body() inviteUserDto: InviteUserDto) {

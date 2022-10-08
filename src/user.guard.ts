@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
@@ -47,7 +52,7 @@ export class UserGuard implements CanActivate {
     console.log('Here');
     if (adminModules.includes(resource) && !adminModules.includes(user.role)) {
       console.log('NOT SUPERADMIN');
-      throw new ForbiddenException("Token is not superadmin");
+      throw new ForbiddenException('Token is not superadmin');
     }
 
     if (!user) {
