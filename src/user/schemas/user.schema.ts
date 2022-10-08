@@ -22,7 +22,7 @@ enum Gender {
   FEMALE = 'female',
 }
 
-enum Role {
+export enum Role {
   ADMIN = 'admin',
   MEMBER = 'member',
   SUPER = 'super',
