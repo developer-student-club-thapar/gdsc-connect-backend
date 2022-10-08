@@ -31,7 +31,6 @@ export class UserGuard implements CanActivate {
       console.log('WHITELISTED RESOURCE', resource);
       return true;
     }
-
     // check if bearer token is present
     if (!request.headers['authorization']) {
       console.log('NO AUTHORIZATION HEADER');
@@ -42,14 +41,19 @@ export class UserGuard implements CanActivate {
     const token = request.headers['authorization'].split(' ')[1];
 
     // decode token
-    const userId = this.jwtService.verify(token).user_id;
+    let userId = undefined;
+    try {
+      userId = this.jwtService.verify(token).user_id;
+    } catch (e) {
+      console.log('INVALID TOKEN');
+      return false;
+    }
     if (!userId) {
       console.log('NO USER ID IN TOKEN');
       return false;
     }
 
     const user = await this._userService.findById(userId);
-    console.log('Here');
     if (adminModules.includes(resource) && !adminModules.includes(user.role)) {
       console.log('NOT SUPERADMIN');
       throw new ForbiddenException('Token is not superadmin');
