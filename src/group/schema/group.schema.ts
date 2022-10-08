@@ -1,14 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { User } from 'src/user/schemas/user.schema';
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 @Schema()
 export class Group {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ required: true, unique: true })
-  groupCreater: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required: true })
+  groupCreator: User;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: false })
   isActive: boolean;
 }
 

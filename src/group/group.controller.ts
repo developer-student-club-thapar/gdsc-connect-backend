@@ -1,15 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Req,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
 
 @Controller('group')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
-
   @Post()
-  create(@Body() createGroupDto: CreateGroupDto) {
-    return this.groupService.create(createGroupDto);
+  create(
+    @Req() req: ReqWithUser,
+    @Body() createGroupDto: Omit<CreateGroupDto, 'groupCreator'>,
+  ) {
+    return this.groupService.create({
+      ...createGroupDto,
+      groupCreator: req.user,
+    });
   }
 
   @Get()

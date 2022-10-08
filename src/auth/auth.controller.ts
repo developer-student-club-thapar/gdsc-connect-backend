@@ -28,16 +28,19 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({
     description: 'Returns user auth token',
-    type: Token
+    type: Token,
   })
   @Post('login')
-  async login(@Request() req: ReqWithUser, @Body() creds: UserLoginDto): Promise<any> {
+  async login(
+    @Request() req: ReqWithUser,
+    @Body() creds: UserLoginDto,
+  ): Promise<any> {
     return this.authService.login(req.user);
   }
 
   @ApiOkResponse({
     description: 'Sent email with reset password link',
-    type: String
+    type: String,
   })
   @Patch('forgot-password')
   async forgotPassword(
@@ -48,7 +51,7 @@ export class AuthController {
 
   @ApiOkResponse({
     description: 'Password reset successfully',
-    type: User
+    type: User,
   })
   @Patch('reset-password')
   async resetPassword(
@@ -59,7 +62,7 @@ export class AuthController {
 
   @ApiOkResponse({
     description: 'New user registered',
-    type: User
+    type: User,
   })
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
