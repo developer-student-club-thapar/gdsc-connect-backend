@@ -23,7 +23,7 @@ export class GroupController {
   ) {
     return this.groupService.create({
       ...createGroupDto,
-      groupCreator: req.user,
+      admin: req.user,
     });
   }
 

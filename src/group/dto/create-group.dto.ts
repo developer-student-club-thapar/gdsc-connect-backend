@@ -4,5 +4,5 @@ export class CreateGroupDto {
   //name
   name: string;
   //groupCreator
-  groupCreator: User;
+  admin: User;
 }

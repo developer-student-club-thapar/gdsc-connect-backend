@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 //import group schema
@@ -14,8 +14,14 @@ export class GroupService {
     @InjectModel(Group.name) private groupModel: Model<GroupDocument>,
   ) {}
   async create(createGroupDto: CreateGroupDto) {
-    const group = await this.groupModel.create(createGroupDto);
-    return group;
+    const group = new this.groupModel();
+    group.name = createGroupDto.name;
+    group.admins = [createGroupDto.admin];
+    try {
+      return await group.save();
+    } catch (e) {
+      throw new HttpException(e.message, 500);
+    }
   }
 
   //changeGroupName

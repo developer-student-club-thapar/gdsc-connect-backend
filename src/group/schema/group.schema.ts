@@ -8,8 +8,8 @@ export class Group {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required: true })
-  groupCreator: User;
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  admins: User[];
 
   @Prop({ required: true, default: false })
   isActive: boolean;
