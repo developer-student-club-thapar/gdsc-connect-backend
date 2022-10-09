@@ -6,6 +6,8 @@ import { UserService } from 'src/user/user.service';
 import { InviteUserDto } from './dto/invite-user.dto';
 import { Invite } from './schemas/invite-email.schema';
 import configuration from 'src/config/configuration';
+import { ActivateGroupDto } from './dto/activate-group.dto';
+import { GroupService } from 'src/group/group.service';
 
 @Injectable()
 export class SuperadminService {
@@ -13,6 +15,7 @@ export class SuperadminService {
     private mailerService: MailerService,
     @InjectModel(Invite.name) private InviteModel: Model<Invite>,
     private userService: UserService,
+    private groupService: GroupService,
   ) {}
 
   async sendInvite(inviteUserDto: InviteUserDto) {
@@ -57,5 +60,16 @@ export class SuperadminService {
       throw new BadRequestException('Invalid invite code or Email');
     }
     return invite;
+  }
+
+  async activateGroup(activateGroupDto: ActivateGroupDto) {
+    const { group_id } = activateGroupDto;
+    const group = await this.groupService.findGroupById(group_id);
+    if (group) {
+      group.isActive = activateGroupDto.isActive;
+      await group.save();
+      return 'Group activated';
+    }
+    throw new BadRequestException('No group found with this id');
   }
 }

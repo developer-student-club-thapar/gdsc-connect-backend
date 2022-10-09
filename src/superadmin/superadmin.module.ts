@@ -8,6 +8,7 @@ import { join } from 'path';
 import { Invite, InviteSchema } from './schemas/invite-email.schema';
 import configuration from 'src/config/configuration';
 import { UserModule } from 'src/user/user.module';
+import { GroupModule } from 'src/group/group.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UserModule } from 'src/user/user.module';
       }),
     }),
     UserModule,
+    GroupModule,
   ],
   controllers: [SuperadminController],
   providers: [SuperadminService],

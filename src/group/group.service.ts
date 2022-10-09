@@ -33,4 +33,10 @@ export class GroupService {
   remove(id: number) {
     return `This action removes a #${id} group`;
   }
+
+  async findGroupById(groupId: string) {
+    const group = await this.groupModel.findById(groupId).exec();
+    if (!group) throw new BadRequestException('No group found with this id');
+    return group;
+  }
 }
