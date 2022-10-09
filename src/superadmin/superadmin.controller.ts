@@ -34,11 +34,8 @@ export class SuperadminController {
     return req.user;
   }
 
-  @Patch('activate-group')
-  activateGroup(
-    @Req() request: ReqWithUser,
-    @Body() activateGroupDto: ActivateGroupDto,
-  ) {
+  @Patch('activateGroup')
+  activateGroup(@Body() activateGroupDto: ActivateGroupDto) {
     return this.superadminService.activateGroup(activateGroupDto);
   }
 }
