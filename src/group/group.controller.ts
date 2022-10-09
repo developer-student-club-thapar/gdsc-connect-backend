@@ -37,9 +37,10 @@ export class GroupController {
     return this.groupService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
-    return this.groupService.update(+id, updateGroupDto);
+  //change group name endpoint with group id in body
+  @Patch('rename')
+  async changeGroupName(@Body() updateGroupDto: UpdateGroupDto) {
+    return this.groupService.changeGroupName(updateGroupDto.id, updateGroupDto);
   }
 
   @Delete(':id')

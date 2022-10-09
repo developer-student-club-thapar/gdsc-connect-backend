@@ -18,6 +18,18 @@ export class GroupService {
     return group;
   }
 
+  //changeGroupName
+  async changeGroupName(groupId: string, updateGroupDto: UpdateGroupDto) {
+    const group = await this.groupModel.findById(groupId);
+    if (!group) {
+      throw new BadRequestException('Group not found');
+    }
+    console.log('Group found');
+    group.name = updateGroupDto.name;
+    await group.save();
+    return group;
+  }
+
   findAll() {
     return `This action returns all group`;
   }
