@@ -36,7 +36,7 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async register(registerUserDto: RegisterUserDto): Promise<User> {
+  async register(registerUserDto: RegisterUserDto): Promise<any> {
     const invite = await this.superadminService.findInvite(
       registerUserDto.invite_code,
       registerUserDto.email,
