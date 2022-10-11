@@ -16,6 +16,7 @@ import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
 import { GroupGuard } from './group.guard';
 import { GroupRole } from './group-action.decorator';
 import { Role } from 'src/user/schemas/user.schema';
+import { addMemberDto } from './dto/add-member.dto';
 
 @UseGuards(GroupGuard)
 @Controller('group')
@@ -37,11 +38,18 @@ export class GroupController {
     return this.groupService.findAll();
   }
 
-  //change group name endpoint with group id in body
+  //rename group route
   @Patch('rename')
   @GroupRole(Role.ADMIN)
   async changeGroupName(@Body() updateGroupDto: UpdateGroupDto) {
     return this.groupService.changeGroupName(updateGroupDto);
+  }
+
+  //add member to group route
+  @Patch('add-member')
+  @GroupRole(Role.ADMIN)
+  async addMember(@Body() addMemberDto: addMemberDto) {
+    return this.groupService.addMember(addMemberDto);
   }
 
   @Delete(':id')

@@ -14,8 +14,9 @@ export class Group {
   @Prop({ required: true, default: false })
   isActive: boolean;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  members: User[];
+  //members id as a string array
+  @Prop({ required: true, unique: true })
+  members: string[];
 }
 
 export type GroupDocument = Group & Document;
