@@ -17,6 +17,7 @@ export class GroupService {
     const group = new this.groupModel();
     group.name = createGroupDto.name;
     group.admins = [createGroupDto.admin];
+    group.members = [createGroupDto.admin];
     try {
       return await group.save();
     } catch (e) {
