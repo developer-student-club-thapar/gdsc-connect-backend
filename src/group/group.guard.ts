@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from 'src/user/schemas/user.schema';
+import { GroupUserRole, Role } from 'src/user/schemas/user.schema';
 import { GroupService } from './group.service';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class GroupGuard implements CanActivate {
     const user = request.user;
 
     // admin check
-    if (groupRole.includes(Role.ADMIN)) {
+    if (groupRole.includes(GroupUserRole.ADMIN)) {
       try {
         const groupId = request.body.groupId;
         const group = await this._groupService.findOne(groupId);
@@ -39,7 +39,7 @@ export class GroupGuard implements CanActivate {
       } catch (e) {
         return false;
       }
-    } else if (groupRole.includes(Role.MEMBER)) {
+    } else if (groupRole.includes(GroupUserRole.MEMBER)) {
       console.log('this is a member');
     }
   }

@@ -23,9 +23,13 @@ enum Gender {
 }
 
 export enum Role {
+  USER = 'user',
+  SUPER = 'super',
+}
+
+export enum GroupUserRole {
   ADMIN = 'admin',
   MEMBER = 'member',
-  SUPER = 'super',
 }
 
 @Schema()
@@ -41,7 +45,7 @@ export class User {
 
   @Prop({
     enum: Role,
-    default: Role.MEMBER,
+    default: Role.USER,
     required: true,
   })
   @ApiProperty()
