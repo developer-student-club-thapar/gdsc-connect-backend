@@ -52,6 +52,7 @@ export class GroupController {
     return this.groupService.addMember(addMemberDto);
   }
 
+  //delete group route
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.groupService.remove(+id);

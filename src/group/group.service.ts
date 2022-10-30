@@ -37,7 +37,7 @@ export class GroupService {
   }
 
   findAll() {
-    return `This action returns all group`;
+    return this.groupModel.find().select('name');
   }
 
   async findOne(groupId: string) {

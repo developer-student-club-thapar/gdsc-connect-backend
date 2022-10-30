@@ -14,7 +14,6 @@ export class Group {
   @Prop({ required: true, default: false })
   isActive: boolean;
 
-  //members id as a string array
   @Prop({ required: true, unique: true })
   members: string[];
 }

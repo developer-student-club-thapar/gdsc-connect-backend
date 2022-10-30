@@ -33,7 +33,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Request() req: ReqWithUser,
-    @Body() creds: UserLoginDto,
+    // @Body() creds: UserLoginDto,
   ): Promise<any> {
     return this.authService.login(req.user);
   }
