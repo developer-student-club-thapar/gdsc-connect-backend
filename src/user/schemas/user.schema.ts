@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+
 export class Socials {
   @ApiProperty()
   facebook: string;
@@ -35,6 +36,7 @@ export enum GroupUserRole {
 @Schema()
 export class User {
   _id: string;
+
   @Prop({ required: true })
   @ApiProperty()
   first_name: string;
