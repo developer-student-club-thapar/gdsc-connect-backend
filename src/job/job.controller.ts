@@ -11,7 +11,7 @@ import { JobService } from './job.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Job } from './entities/job.entity';
+import { Job } from './schemas/job.schema';
 
 @ApiTags('job')
 @Controller('job')

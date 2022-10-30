@@ -23,14 +23,16 @@ export class Job {
   url: string;
 
   @Prop({
-    type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   })
   @ApiProperty()
   userId: string;
 
   @Prop({
-    type: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
     required: true,
   })
   @ApiProperty()
