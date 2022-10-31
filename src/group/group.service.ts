@@ -25,7 +25,7 @@ export class GroupService {
     }
   }
 
-  //changeGroupName
+  // changeGroupName
   async changeGroupName(updateGroupDto: UpdateGroupDto) {
     const group = await this.groupModel.findById(updateGroupDto.groupId);
     if (!group) {
@@ -64,10 +64,6 @@ export class GroupService {
     group.members.push(addMemberDto.memberId);
     await group.save();
     return group;
-  }
-
-  update(id: number, updateGroupDto: UpdateGroupDto) {
-    return `This action updates a #${id} group`;
   }
 
   remove(id: number) {

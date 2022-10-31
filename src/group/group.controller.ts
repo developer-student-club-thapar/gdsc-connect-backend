@@ -38,12 +38,19 @@ export class GroupController {
     return this.groupService.findAll();
   }
 
-  //rename group route
-  @Patch('rename')
+  //update group name
+  @Patch('rename-group')
   @GroupRole(GroupUserRole.ADMIN)
   async changeGroupName(@Body() updateGroupDto: UpdateGroupDto) {
     return this.groupService.changeGroupName(updateGroupDto);
   }
+
+  //rename group route
+  // @Patch('rename')
+  // @GroupRole(GroupUserRole.ADMIN)
+  // async changeGroupName(@Body() updateGroupDto: UpdateGroupDto) {
+  //   return this.groupService.changeGroupName(updateGroupDto);
+  // }
 
   //add member to group route
   @Patch('add-member')
