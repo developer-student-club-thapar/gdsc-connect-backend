@@ -1,76 +1,72 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 
-export class SocialsDto {
-  @ApiProperty()
+class SocialsDto {
   @IsString()
   @IsOptional()
   facebook: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   instagram: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   linkedin: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   twitter: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   github: string;
 }
 
-export class CreateUserDto extends SocialsDto {
-  @ApiProperty()
+export class CreateUserDto {
   @IsString()
+  @IsNotEmpty()
   email: string;
 
-  @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   graduation_batch: number;
 
-  @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   first_name: string;
 
-  @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   last_name: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   resume: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   bio: string;
 
-  @ApiProperty()
   @IsString()
   @IsOptional()
   profile_picture: string;
 
-  @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   password: string;
 
-  @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   gender: string;
+
+  @Type(() => SocialsDto)
+  @ValidateNested()
+  socials: SocialsDto;
 }

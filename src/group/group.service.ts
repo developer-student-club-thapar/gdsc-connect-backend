@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { Group, GroupDocument } from './schema/group.schema';
+import { Group, GroupDocument } from './schemas/group.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { addMemberDto } from './dto/add-member.dto';
@@ -36,10 +36,6 @@ export class GroupService {
     return group;
   }
 
-  findAll() {
-    return this.groupModel.find().select('name');
-  }
-
   async findOne(groupId: string) {
     const group = await this.groupModel.findById(groupId).exec();
     if (!group) throw new BadRequestException('No group found with this id');
@@ -58,9 +54,6 @@ export class GroupService {
     }
     //findUser from user service
     const user = await this.userService.findById(addMemberDto.memberId);
-    if (!user) {
-      throw new BadRequestException('User not found');
-    }
     group.members.push(addMemberDto.memberId);
     await group.save();
     return group;

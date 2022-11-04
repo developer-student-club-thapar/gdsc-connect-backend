@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -29,15 +33,17 @@ export class UserService {
       .findOne({ email })
       .select(showPassword ? '+password' : '')
       .exec();
-
-    if (!user)
-      throw new BadRequestException('No user registered with this email');
+    if (!user) {
+      throw new NotFoundException('No user found with this email');
+    }
     return user;
   }
 
   async findById(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
-    if (!user) throw new BadRequestException('No user found with this id');
+    if (!user) {
+      throw new NotFoundException('No user found with this id');
+    }
     return user;
   }
 

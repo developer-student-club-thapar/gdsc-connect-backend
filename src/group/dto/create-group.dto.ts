@@ -1,8 +1,12 @@
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { User } from 'src/user/schemas/user.schema';
 
 export class CreateGroupDto {
-  //name
+  @IsString()
+  @IsNotEmpty()
   name: string;
-  //groupCreator
+
+  @Type(() => User)
   admin: User;
 }

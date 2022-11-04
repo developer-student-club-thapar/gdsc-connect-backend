@@ -7,8 +7,8 @@ import { ResourceDecorator } from './resource.decorator';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('')
-  getHello(): string {
-    return 'API health is ok';
+  @Get()
+  test(): string {
+    return this.appService.test();
   }
 }

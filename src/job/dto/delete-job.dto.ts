@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class InviteUserDto {
+export class DeleteJobDto {
   @IsString()
   @IsNotEmpty()
-  email: string;
+  readonly id: string;
 }

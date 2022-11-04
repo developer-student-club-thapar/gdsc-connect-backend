@@ -22,33 +22,37 @@ export class SuperadminService {
     const { email } = inviteUserDto;
     try {
       const user = await this.userService.findUser(email, false);
-      throw new BadRequestException('User already exists');
+      if (user) {
+        throw new BadRequestException('User already exists');
+      }
     } catch (error) {
       if (error.name == 'BadRequestException') {
         throw error;
       }
-      const invite_code = Math.random().toString(36).substring(2, 10);
-      const invite = new this.InviteModel({
-        email: inviteUserDto.email,
-        invite_code,
-      });
-      await invite.save();
-      const mail = {
-        invite: invite_code,
-        url: `${configuration().app_url}/auth/register/${invite_code}`,
-      };
-      try {
-        await this.mailerService.sendMail({
-          to: `${inviteUserDto.email}`,
-          subject: 'Invite code for gdsc-connect',
-          template: './inviteTemplate',
-          context: {
-            Mail: mail,
-          },
+      if (error.name == 'NotFoundException') {
+        const invite_code = Math.random().toString(36).substring(2, 10);
+        const invite = new this.InviteModel({
+          email: inviteUserDto.email,
+          invite_code,
         });
-        return 'Invite sent';
-      } catch (err) {
-        console.log(err);
+        await invite.save();
+        const mail = {
+          invite: invite_code,
+          url: `${configuration().app_url}/auth/register/${invite_code}`,
+        };
+        try {
+          await this.mailerService.sendMail({
+            to: `${inviteUserDto.email}`,
+            subject: 'Invite code for gdsc-connect',
+            template: './inviteTemplate',
+            context: {
+              Mail: mail,
+            },
+          });
+          return 'Invite sent';
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   }
@@ -66,6 +70,9 @@ export class SuperadminService {
     const { group_id } = activateGroupDto;
     const group = await this.groupService.findGroupById(group_id);
     if (group) {
+      if (group.isActive) {
+        throw new BadRequestException('Group already activated');
+      }
       group.isActive = activateGroupDto.isActive;
       await group.save();
       return 'Group activated';
