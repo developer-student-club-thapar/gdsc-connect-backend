@@ -1,25 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 
 @Schema()
 export class Job {
-  _id: string;
-
   @Prop({ required: true })
-  @ApiProperty()
   title: string;
 
   @Prop({ required: true })
-  @ApiProperty()
   company: string;
 
   @Prop({ required: true })
-  @ApiProperty()
   description: string;
 
   @Prop({ required: true })
-  @ApiProperty()
   url: string;
 
   @Prop({
@@ -27,7 +20,6 @@ export class Job {
     ref: 'User',
     required: true,
   })
-  @ApiProperty()
   userId: string;
 
   @Prop({
@@ -35,7 +27,6 @@ export class Job {
     ref: 'Group',
     required: true,
   })
-  @ApiProperty()
   groupId: string;
 
   @Prop({
@@ -48,19 +39,23 @@ export class Job {
     ],
     default: [],
   })
-  @ApiProperty()
-  tags: string[];
+  tags: String[];
 
-  @Prop({ required: true })
-  @ApiProperty()
+  @Prop({
+    type: [
+      {
+        type: String,
+        required: false,
+      },
+    ],
+    default: [],
+  })
   eligibility: String[];
 
   @Prop({ required: true })
-  @ApiProperty()
   deadline: Date;
 
   @Prop({ required: true })
-  @ApiProperty()
   date_posted: Date;
 }
 

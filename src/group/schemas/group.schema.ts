@@ -14,7 +14,7 @@ export class Group {
   @Prop({ required: true, default: false })
   isActive: boolean;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: false })
   members: string[];
 }
 

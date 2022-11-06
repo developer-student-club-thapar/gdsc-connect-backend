@@ -1,6 +1,11 @@
+import { IsNotEmpty, IsString } from 'class-validator';
+
 export class ActivateGroupDto {
-  // group id
+  @IsString()
+  @IsNotEmpty()
   group_id: string;
-  // is active
+
+  @IsString()
+  @IsNotEmpty()
   isActive: boolean;
 }

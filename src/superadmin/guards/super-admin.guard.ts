@@ -14,7 +14,6 @@ export class SuperAdminGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     console.log('CALLING SUPERADMIN GUARD');
     const request = context.switchToHttp().getRequest<ReqWithUser>();
-
     // check if user is superadmin
     if (request.user.role !== Role.SUPER) {
       console.log('SUPERADMIN GUARD: NOT SUPERADMIN');

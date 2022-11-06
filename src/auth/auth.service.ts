@@ -36,13 +36,14 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async register(registerUserDto: RegisterUserDto): Promise<any> {
+  async register(registerUserDto: RegisterUserDto): Promise<User> {
     const invite = await this.superadminService.findInvite(
       registerUserDto.invite_code,
       registerUserDto.email,
     );
     if (invite) {
       delete registerUserDto.invite_code;
+      await invite.remove();
       const user = await this.userService.create(registerUserDto);
       return user;
     } else {
@@ -59,9 +60,6 @@ export class AuthService {
         console.log('token removed');
       }
       const user = await this.userService.findUser(email, true);
-      if (!user) {
-        throw new BadRequestException('No user registered with this email');
-      }
       const payload = { user_id: user._id, type: 'password' };
       const access_token = this.jwtService.sign(payload, {
         expiresIn: Date.now() + 1800000,

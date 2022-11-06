@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GroupUserRole, Role } from 'src/user/schemas/user.schema';
-import { GroupService } from './group.service';
+import { GroupService } from '../group.service';
 
 @Injectable()
 export class GroupGuard implements CanActivate {

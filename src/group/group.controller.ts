@@ -13,7 +13,7 @@ import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { ReqWithUser } from 'src/auth/interfaces/auth-interface.interface';
-import { GroupGuard } from './group.guard';
+import { GroupGuard } from './guards/group.guard';
 import { GroupRole } from './group-action.decorator';
 import { GroupUserRole, Role } from 'src/user/schemas/user.schema';
 import { addMemberDto } from './dto/add-member.dto';
@@ -31,11 +31,6 @@ export class GroupController {
       ...createGroupDto,
       admin: req.user,
     });
-  }
-
-  @Get()
-  findAll() {
-    return this.groupService.findAll();
   }
 
   //update group name

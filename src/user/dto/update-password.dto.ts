@@ -1,12 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { User } from '../schemas/user.schema';
 
 export class UpdatePasswordDto {
-  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   oldPassword: string;
 
-  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   newPassword: string;
 
+  @Type(() => User)
+  @IsNotEmpty()
   user: User;
 }
