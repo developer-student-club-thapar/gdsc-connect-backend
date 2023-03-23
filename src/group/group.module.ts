@@ -7,7 +7,12 @@ import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Group.name, schema: GroupSchema }]),
+    MongooseModule.forFeature([
+      {
+        name: Group.name,
+        schema: GroupSchema,
+      },
+    ]),
     UserModule,
   ],
   controllers: [GroupController],
