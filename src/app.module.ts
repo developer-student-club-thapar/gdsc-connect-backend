@@ -13,6 +13,8 @@ import { UserGuard } from './user.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { SuperadminModule } from './superadmin/superadmin.module';
 import { GroupModule } from './group/group.module';
+import { MessageModule } from './message/message.module';
+import { EventsGateway } from './message/message.gateway';
 import configuration from './config/configuration';
 
 @Module({
@@ -36,6 +38,7 @@ import configuration from './config/configuration';
     AdminModule,
     SuperadminModule,
     GroupModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [
@@ -44,6 +47,7 @@ import configuration from './config/configuration';
       useClass: UserGuard,
     },
     AppService,
+    EventsGateway,
   ],
 })
 export class AppModule {}

@@ -29,8 +29,7 @@ export class JobController {
     job.groupId = createJobDto.groupId;
     job.tags = createJobDto.tags;
     job.eligibility = createJobDto.eligibility;
-    job.deadline = createJobDto.deadline;
-    job.date_posted = createJobDto.date_posted;
+    job.deadline = new Date(createJobDto.deadline);
     job.userId = req.user._id;
 
     return this.jobService.create(job);

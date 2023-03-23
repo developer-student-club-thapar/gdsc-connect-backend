@@ -10,6 +10,8 @@ export class JobService {
 
   create(job: Job) {
     const createdJob = new this.JobModel(job);
+    createdJob.date_posted = new Date();
+
     return createdJob.save();
   }
 

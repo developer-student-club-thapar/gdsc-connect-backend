@@ -29,9 +29,5 @@ export class CreateJobDto {
 
   @IsString()
   @IsNotEmpty()
-  deadline: Date;
-
-  @IsString()
-  @IsNotEmpty()
-  date_posted: Date;
+  deadline: string;
 }
